@@ -5,7 +5,7 @@ import common.Account;
 import common.AccountService;
 import common.domain.Customer;
 import common.log.Log;
-import common.utils.NoCommand;
+
 import framework.command.Command;
 import framework.constant.AccountOperationConstant;
 import framework.observer.Observer;
@@ -16,20 +16,13 @@ import framework.ui.UITemplate;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
+
 public class UIFrameInvoker extends UITemplate implements IUIInvoker, Observer
 {
 
-	private Command addPersonalAccountCommand;
-	private Command addCompanyAccountCommand;
-	private Command addInterestCommand;
-	private Command depositCommand;
-	private Command withdrawCommand;
-	private Command reportCommand;
-
+	//list of command
+	private Map<String, Command> commands;
 	protected AccountOperationConstant accountOperationCategory;
 
 	private Collection<String> accountTypes;
@@ -59,12 +52,6 @@ public class UIFrameInvoker extends UITemplate implements IUIInvoker, Observer
 
 
 	private UIFrameInvoker() {
-		this.addPersonalAccountCommand = new NoCommand();
-		this.addCompanyAccountCommand = new NoCommand();
-		this.addInterestCommand = new NoCommand();
-		this.depositCommand = new NoCommand();
-		this.withdrawCommand = new NoCommand();
-		this.reportCommand = new NoCommand();
 		this.accountTypes = new ArrayList<>();
 	}
 
@@ -77,6 +64,10 @@ public class UIFrameInvoker extends UITemplate implements IUIInvoker, Observer
 			}
 		}
 		return uiFrame;
+	}
+
+	public void setCommands(Map<String, Command> commands){
+		this.commands = commands;
 	}
 
 	public void initialize(String title, UIStrategy uiStrategy) {
@@ -94,6 +85,8 @@ public class UIFrameInvoker extends UITemplate implements IUIInvoker, Observer
 		generateFormTemplate(title,uiStrategy,buttons);
 	}
 
+
+
 	private final ActionListener exit = (ActionListener) -> {
 		System.exit(0);
 	};
@@ -101,18 +94,18 @@ public class UIFrameInvoker extends UITemplate implements IUIInvoker, Observer
 	private final ActionListener addPersonalAccountActionListener = (ActionListener) -> {
 		openDialog(new AddPersonalAccount(uiFrame));
 		if (newAccount) {
-			this.addPersonalAccountCommand.execute(this);
+			Runner.run(CommandType.ADDPERSONALACCT.name(), this);
 		}
 	};
 
 	private final ActionListener addCompanyAccountActionListener = (ActionListener) -> {
 		openDialog(new AddCompanyAccount(uiFrame));
 		if (newAccount)
-			this.addCompanyAccountCommand.execute(this);
+			Runner.run(CommandType.ADDCOMPANYACCT.name(), this);
 	};
 
 	private final ActionListener addInterestActionListener = (ActionListener) -> {
-		this.addInterestCommand.execute(this);
+		Runner.run(CommandType.ADDINTEREST.name(), this);
 		JOptionPane.showMessageDialog(null, "Added interest to all accounts", "Added interest to all accounts", JOptionPane.WARNING_MESSAGE);
 	};
 
@@ -121,7 +114,7 @@ public class UIFrameInvoker extends UITemplate implements IUIInvoker, Observer
 	if (selection >= 0) {
 		String accnr = (String) model.getValueAt(selection, uiStrategy.getIdColumnIndex());
 		openDialog(new Deposit(uiFrame, accnr));
-		this.depositCommand.execute(this);
+		Runner.run(CommandType.DEPOSIT.name(), this);
 	} else {
 		Log.getLogger().write("Need to select row to DEPOSIT!");
 	}
@@ -132,7 +125,7 @@ public class UIFrameInvoker extends UITemplate implements IUIInvoker, Observer
 		if (selection >= 0) {
 			String accnr = (String) model.getValueAt(selection, uiStrategy.getIdColumnIndex());
 			openDialog(new Withdraw(uiFrame, accnr));
-			this.withdrawCommand.execute(this);
+			Runner.run(CommandType.WITHDRAW.name(), this);
 		} else {
 			Log.getLogger().write("Need to select row to WITHDRAW!");
 		}
@@ -145,7 +138,7 @@ public class UIFrameInvoker extends UITemplate implements IUIInvoker, Observer
 			GenerateReport gr = new GenerateReport();
 			setReport(gr);
 			setAccountNumber(accnr);
-			this.reportCommand.execute(this);
+			Runner.run(CommandType.REPORT.name(), this);
 			openDialog(gr,450, 20, 860, 760);
 		} else {
 			Log.getLogger().write("Need to select row to GENERATE REPORT!");
@@ -159,36 +152,6 @@ public class UIFrameInvoker extends UITemplate implements IUIInvoker, Observer
 			System.exit(0);            // close the application
 		} catch (Exception e) {
 		}
-	}
-
-	@Override
-	public void setAddPersonalAccountCommand(Command addAccountCommand) {
-		this.addPersonalAccountCommand = addAccountCommand;
-	}
-
-	@Override
-	public void setAddCompanyAccountCommand(Command addAccountCommand) {
-		this.addCompanyAccountCommand = addAccountCommand;
-	}
-
-	@Override
-	public void setReportCommand(Command reportCommand) {
-		this.reportCommand = reportCommand;
-	}
-
-	@Override
-	public void setAddInterestCommand(Command addInterestCommand) {
-		this.addInterestCommand = addInterestCommand;
-	}
-
-	@Override
-	public void setDepositCommand(Command depositCommand) {
-		this.depositCommand = depositCommand;
-	}
-
-	@Override
-	public void setWithdrawCommand(Command withdrawCommand) {
-		this.withdrawCommand = withdrawCommand;
 	}
 
 	@Override
@@ -226,6 +189,11 @@ public class UIFrameInvoker extends UITemplate implements IUIInvoker, Observer
 
 	public GenerateReport getReportUI(){
 		return report;
+	}
+
+	@Override
+	public Map<String, Command> getCommands() {
+		return this.commands;
 	}
 
 	@Override

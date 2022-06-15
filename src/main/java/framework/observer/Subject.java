@@ -1,8 +1,6 @@
 package framework.observer;
 
-import framework.observer.Observer;
-
-public interface Observable {
+public interface Subject {
     void registerObserver(Observer observer);
 
     void removeObserver(Observer observer);

@@ -5,5 +5,5 @@ import framework.ui.IUIInvoker;
 
 public class NoCommand implements Command {
     @Override
-    public void execute(IUIInvoker uiControl) {}
+    public void execute(IUIInvoker iuiInvoker) {}
 }

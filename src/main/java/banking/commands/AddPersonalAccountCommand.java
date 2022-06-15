@@ -7,9 +7,9 @@ import framework.ui.IUIInvoker;
 
 public class AddPersonalAccountCommand implements Command {
     @Override
-    public void execute(IUIInvoker control) {
+    public void execute(IUIInvoker iuiInvoker) {
         BankAccountServiceImpl
                 .getInstance()
-                .createAccount(AccountDTOCreator.create(control));
+                .createAccount(AccountDTOCreator.create(iuiInvoker));
     }
 }

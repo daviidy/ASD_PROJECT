@@ -2,8 +2,8 @@ package framework.observer;
 
 import creditcard.service.CreditCardAccountServiceImpl;
 import framework.constant.AccountOperationConstant;
-import framework.domain.CompanyAccount;
-import framework.domain.PersonalAccount;
+import framework.domain.CompanyCustomer;
+import framework.domain.IndividualCustomer;
 import common.Account;
 import common.AccountService;
 import common.domain.AccountTransaction;
@@ -38,7 +38,7 @@ public class EmailSender implements Observer {
             Account account = entry.getKey();
             List<AccountTransaction> transactions = entry.getValue();
 
-            if (account.getCustomer() instanceof CompanyAccount || account.getCustomer() instanceof PersonalAccount) {
+            if (account.getCustomer() instanceof CompanyCustomer || account.getCustomer() instanceof IndividualCustomer) {
 
                 for (Iterator<AccountTransaction> it = transactions.iterator(); it.hasNext(); ) {
                     AccountTransaction transaction = it.next();
@@ -51,10 +51,10 @@ public class EmailSender implements Observer {
                         sb.append("\t\tMore than $400 withdraw amount on CREDIT CARD ACCOUNT!\n");
                         sb.append(generateEmailBody(account, transaction));
                     } else {
-                        if (account.getCustomer() instanceof CompanyAccount) {
+                        if (account.getCustomer() instanceof CompanyCustomer) {
                             sb.append("\t\tCOMPANY ACCOUNT\n");
                             sb.append(generateEmailBody(account, transaction));
-                        } else if ((account.getCustomer() instanceof PersonalAccount && account.getBalance() < 0) || (account.getCustomer() instanceof PersonalAccount && transaction.getTransactionAmount() > accountService.getPersonalAccountTransferAlertBalance())) {
+                        } else if ((account.getCustomer() instanceof IndividualCustomer && account.getBalance() < 0) || (account.getCustomer() instanceof IndividualCustomer && transaction.getTransactionAmount() > accountService.getPersonalAccountTransferAlertBalance())) {
                             sb.append("\t\tPERSONAL ACCOUNT\n");
                             sb.append(generateEmailBody(account, transaction));
                         }

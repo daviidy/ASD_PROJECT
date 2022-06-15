@@ -6,9 +6,9 @@ import framework.ui.IUIInvoker;
 
 public class WithdrawCommand implements Command {
     @Override
-    public void execute(IUIInvoker uiControl) {
+    public void execute(IUIInvoker iuiInvoker) {
         CreditCardAccountServiceImpl
                 .getInstance()
-                .withdraw(uiControl.getAccountNumber(), Double.parseDouble(uiControl.getAmount()));
+                .withdraw(iuiInvoker.getAccountNumber(), Double.parseDouble(iuiInvoker.getAmount()));
     }
 }

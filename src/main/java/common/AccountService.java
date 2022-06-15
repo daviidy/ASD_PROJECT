@@ -7,7 +7,7 @@ import common.dto.AccountDTO;
 import common.log.Log;
 import creditcard.domain.CreditCardAccount;
 import framework.constant.AccountOperationConstant;
-import framework.observer.Observable;
+import framework.observer.Subject;
 import framework.observer.Observer;
 import framework.ui.pages.GenerateReport;
 import framework.ui.pages.UIFrameInvoker;
@@ -16,7 +16,7 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 //subject
-public abstract class AccountService implements Observable {
+public abstract class AccountService implements Subject {
 	private int personalAccountTransferAlertBalance = 400;
 	private int creditCardWithdrawAlertBalance = 400;
 	private final AccountDAO accountDAO;

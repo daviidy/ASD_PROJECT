@@ -3,7 +3,7 @@ package banking;
 import banking.constant.BankReportColumnConstant;
 import banking.constant.BankingAccountType;
 import common.Account;
-import framework.domain.PersonalAccount;
+import framework.domain.IndividualCustomer;
 import framework.ui.UIStrategy;
 
 import java.util.Arrays;
@@ -31,7 +31,7 @@ public class BankingUIStrategy implements UIStrategy {
         rowData[0] = account.getAccountNumber();
         rowData[1] = account.getCustomer().getName();
         rowData[2] = account.getCustomer().getCity();
-        rowData[3] = account.getCustomer() instanceof PersonalAccount ? "Personal Ac" : "Company Ac";
+        rowData[3] = account.getCustomer() instanceof IndividualCustomer ? "Personal Ac" : "Company Ac";
         rowData[4] = account.getAccountType();
         rowData[5] = String.valueOf(account.getBalance());
         return rowData;

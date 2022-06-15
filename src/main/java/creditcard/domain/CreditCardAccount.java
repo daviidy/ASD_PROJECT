@@ -1,6 +1,4 @@
 package creditcard.domain;
-
-import banking.visitor.Visitor;
 import common.Account;
 import common.domain.AccountEntry;
 import creditcard.constant.CreditCardType;
@@ -17,11 +15,6 @@ public class CreditCardAccount extends Account {
         super(creditCardCalculator);
         this.ICreditCardStrategy =  creditCardCalculator;
         this.creditCardType =  creditCardType;
-    }
-
-    @Override
-    public double accept(Visitor visitor) {
-        return visitor.visit(this);
     }
 
     public double getPreviousBalance() {

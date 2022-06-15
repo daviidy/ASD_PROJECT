@@ -6,9 +6,9 @@ import framework.ui.IUIInvoker;
 
 public class DepositCommand implements Command {
     @Override
-    public void execute(IUIInvoker uiControl) {
+    public void execute(IUIInvoker iuiInvoker) {
         CreditCardAccountServiceImpl
                 .getInstance()
-                .deposit(uiControl.getAccountNumber(), Double.parseDouble(uiControl.getAmount()));
+                .deposit(iuiInvoker.getAccountNumber(), Double.parseDouble(iuiInvoker.getAmount()));
     }
 }

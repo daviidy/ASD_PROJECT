@@ -1,7 +1,5 @@
 package common;
 
-import banking.visitor.InterestVisitor;
-import banking.visitor.Visitor;
 import common.domain.AccountEntry;
 import common.domain.Customer;
 import framework.strategy.InterestStrategy;
@@ -22,9 +20,6 @@ public abstract class Account {
 
 	//For Test Purpose: Report Generate
 	private static long day = 0l;
-
-	InterestVisitor visitor = new InterestVisitor();
-
 	private List<AccountEntry> accountEntries;
 
 	private InterestStrategy interestStrategy;
@@ -75,7 +70,6 @@ public abstract class Account {
 		accountEntries.add(entry);
 		return interest;
 	}
-	public abstract double accept(Visitor visitor);
 	public Collection<AccountEntry> getAccountEntries() {
 		return accountEntries;
 	}

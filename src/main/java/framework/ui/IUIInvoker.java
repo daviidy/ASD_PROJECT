@@ -4,20 +4,12 @@ import common.domain.Customer;
 import framework.command.Command;
 import framework.ui.pages.GenerateReport;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public interface IUIInvoker {
+
     void initialize(String title, UIStrategy config);
-
-    void setAddPersonalAccountCommand(Command addAccountCommand);
-
-    void setAddCompanyAccountCommand(Command addAccountCommand);
-
-    void setReportCommand(Command reportCommand);
-
-    void setAddInterestCommand(Command addInterestCommand);
-
-    void setDepositCommand(Command depositCommand);
-
-    void setWithdrawCommand(Command withdrawCommand);
 
     void setVisible(boolean value);
 
@@ -30,5 +22,9 @@ public interface IUIInvoker {
     String getAmount();
 
     GenerateReport getReportUI();
+
+    Map<String, Command> getCommands();
+
+    void setCommands(Map<String, Command> commands);
 
 }

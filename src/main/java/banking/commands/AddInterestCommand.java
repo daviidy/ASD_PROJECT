@@ -6,7 +6,7 @@ import framework.ui.IUIInvoker;
 
 public class AddInterestCommand implements Command {
     @Override
-    public void execute(IUIInvoker control) {
+    public void execute(IUIInvoker iuiInvoker) {
         BankAccountServiceImpl
                 .getInstance()
                 .addInterest();

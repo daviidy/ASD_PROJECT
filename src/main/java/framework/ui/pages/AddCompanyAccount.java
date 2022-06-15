@@ -1,6 +1,6 @@
 package framework.ui.pages;
 
-import framework.domain.CompanyAccount;
+import framework.domain.CompanyCustomer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -129,7 +129,7 @@ public class AddCompanyAccount extends javax.swing.JDialog {
         parentframe.city = JTextField_CITY.getText();
         parentframe.zip = JTextField_ZIP.getText();
         parentframe.state = JTextField_STATE.getText();
-        CompanyAccount company = new CompanyAccount(
+        CompanyCustomer company = new CompanyCustomer(
                 ThreadLocalRandom.current().nextInt(),
                 JTextField_NAME.getText(),
                 JTextField_STREET.getText(),

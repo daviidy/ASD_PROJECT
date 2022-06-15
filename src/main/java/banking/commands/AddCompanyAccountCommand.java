@@ -6,9 +6,9 @@ import framework.command.Command;
 import framework.ui.IUIInvoker;
 
 public class AddCompanyAccountCommand implements Command {
-    public void execute(IUIInvoker control) {
+    public void execute(IUIInvoker iuiInvoker) {
         BankAccountServiceImpl
                 .getInstance()
-                .createAccount(AccountDTOCreator.create(control));
+                .createAccount(AccountDTOCreator.create(iuiInvoker));
     }
 }

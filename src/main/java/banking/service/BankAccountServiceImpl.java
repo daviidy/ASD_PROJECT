@@ -13,8 +13,8 @@ import common.AccountService;
 import common.domain.Customer;
 import common.dto.AccountDTO;
 import common.utils.ApplicationMessageConstant;
-import framework.domain.CompanyAccount;
-import framework.domain.PersonalAccount;
+import framework.domain.CompanyCustomer;
+import framework.domain.IndividualCustomer;
 import framework.observer.EmailSender;
 import framework.ui.pages.GenerateReport;
 
@@ -44,11 +44,11 @@ public class BankAccountServiceImpl extends AccountService {
     }
 
     private Account getConcreteAccountObject(Customer customer, BankingAccountType bankAccountType) throws UnsupportedOperationException {
-        if (customer instanceof PersonalAccount)
+        if (customer instanceof IndividualCustomer)
             return (bankAccountType == BankingAccountType.CHECKING)
                     ? new CheckingAccount(new PersonalCheckingAccInterestStrategy())
                     : new SavingsAccount(new PersonalSavingsAccInterestStrategy());
-        else if (customer instanceof CompanyAccount)
+        else if (customer instanceof CompanyCustomer)
             return (bankAccountType == BankingAccountType.CHECKING)
                     ? new CheckingAccount(new CompanyCheckingAccInterestStrategy())
                     : new SavingsAccount(new CompanySavingAccInterestStrategy());

@@ -4,7 +4,7 @@ package framework.ui.pages;
 */
 
 import creditcard.constant.CreditCardType;
-import framework.domain.PersonalAccount;
+import framework.domain.IndividualCustomer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -130,7 +130,7 @@ public class AddPersonalAccount extends javax.swing.JDialog {
     }
 
     void JButtonOK_actionPerformed(java.awt.event.ActionEvent event) {
-        PersonalAccount person = new PersonalAccount(
+        IndividualCustomer person = new IndividualCustomer(
                 ThreadLocalRandom.current().nextInt(),
                 JTextField_NAME.getText(),
                 JTextField_STREET.getText(),

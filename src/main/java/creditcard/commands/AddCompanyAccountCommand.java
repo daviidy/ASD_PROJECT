@@ -8,8 +8,8 @@ import framework.ui.IUIInvoker;
 
 public class AddCompanyAccountCommand implements Command {
 
-    public void execute(IUIInvoker control) {
-        AccountDTO accountDTO = AccountDTOCreator.create(control);
+    public void execute(IUIInvoker iuiInvoker) {
+        AccountDTO accountDTO = AccountDTOCreator.create(iuiInvoker);
         CreditCardAccountServiceImpl.getInstance()
                 .createAccount(accountDTO);
     }

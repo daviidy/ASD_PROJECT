@@ -6,7 +6,7 @@ import framework.ui.IUIInvoker;
 
 public class ReportCommand implements Command {
     @Override
-    public void execute(IUIInvoker control) {
-        CreditCardAccountServiceImpl.createReport(control.getAccountNumber(),control.getReportUI());
+    public void execute(IUIInvoker iuiInvoker) {
+        CreditCardAccountServiceImpl.createReport(iuiInvoker.getAccountNumber(), iuiInvoker.getReportUI());
     }
 }

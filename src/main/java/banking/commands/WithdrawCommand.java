@@ -6,7 +6,7 @@ import framework.ui.IUIInvoker;
 
 public class WithdrawCommand implements Command {
     @Override
-    public void execute(IUIInvoker uiControl) {
-        BankAccountServiceImpl.getInstance().withdraw(uiControl.getAccountNumber(), Double.parseDouble(uiControl.getAmount()));
+    public void execute(IUIInvoker iuiInvoker) {
+        BankAccountServiceImpl.getInstance().withdraw(iuiInvoker.getAccountNumber(), Double.parseDouble(iuiInvoker.getAmount()));
     }
 }
