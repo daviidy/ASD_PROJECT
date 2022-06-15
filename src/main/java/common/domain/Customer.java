@@ -1,9 +1,9 @@
 package common.domain;
 
+import common.Account;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import common.Account;
 
 import java.util.HashSet;
 import java.util.Set;

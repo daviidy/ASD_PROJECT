@@ -1,12 +1,9 @@
 package banking.service;
 
-import framework.ui.pages.GenerateReport;
-import common.utils.ApplicationMessageConstant;
-import common.dto.AccountDTO;
 import banking.constant.BankingAccountType;
+import banking.dao.BankingAccountDAOImpl;
 import banking.domain.CheckingAccount;
 import banking.domain.SavingsAccount;
-import banking.dao.BankingAccountDAOImpl;
 import banking.strategy.CompanyCheckingAccInterestStrategy;
 import banking.strategy.CompanySavingAccInterestStrategy;
 import banking.strategy.PersonalCheckingAccInterestStrategy;
@@ -14,9 +11,12 @@ import banking.strategy.PersonalSavingsAccInterestStrategy;
 import common.Account;
 import common.AccountService;
 import common.domain.Customer;
+import common.dto.AccountDTO;
+import common.utils.ApplicationMessageConstant;
 import framework.domain.CompanyAccount;
 import framework.domain.PersonalAccount;
 import framework.observer.EmailSender;
+import framework.ui.pages.GenerateReport;
 
 public class BankAccountServiceImpl extends AccountService {
     private static volatile BankAccountServiceImpl instance;

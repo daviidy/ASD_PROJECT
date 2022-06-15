@@ -1,22 +1,25 @@
 package framework.ui.pages;
 
 
-import common.log.Log;
-import common.utils.NoCommand;
 import common.Account;
 import common.AccountService;
 import common.domain.Customer;
-import framework.constant.AccountOperationConstant;
+import common.log.Log;
+import common.utils.NoCommand;
 import framework.command.Command;
+import framework.constant.AccountOperationConstant;
 import framework.observer.Observer;
-import framework.ui.UITemplate;
-import framework.ui.UIStrategy;
 import framework.ui.IUIInvoker;
+import framework.ui.UIStrategy;
+import framework.ui.UITemplate;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
 public class UIFrameInvoker extends UITemplate implements IUIInvoker, Observer
 {
 
@@ -51,7 +54,7 @@ public class UIFrameInvoker extends UITemplate implements IUIInvoker, Observer
 	boolean newAccount;
 
 	private AccountService subject;
-	private UIStrategy uiConfig;
+	private UIStrategy uiStrategy;
 	private static volatile UIFrameInvoker uiFrame;
 
 
@@ -76,7 +79,7 @@ public class UIFrameInvoker extends UITemplate implements IUIInvoker, Observer
 		return uiFrame;
 	}
 
-	public void initialize(String title, UIStrategy uiConfig) {
+	public void initialize(String title, UIStrategy uiStrategy) {
 		Map<String,ActionListener> buttons = new LinkedHashMap<>();
 		buttons.put("Add Personal Account", addPersonalAccountActionListener);
 		buttons.put("Add Company Account", addCompanyAccountActionListener);
@@ -86,9 +89,9 @@ public class UIFrameInvoker extends UITemplate implements IUIInvoker, Observer
 		buttons.put("Generate Report", generateBillActionListener);
 
 		buttons.put("Exit",exit);
-		this.uiConfig = uiConfig;
-		this.accountTypes = this.uiConfig.getAccountTypes();
-		generateFormTemplate(title,uiConfig,buttons);
+		this.uiStrategy = uiStrategy;
+		this.accountTypes = this.uiStrategy.getAccountTypes();
+		generateFormTemplate(title,uiStrategy,buttons);
 	}
 
 	private final ActionListener exit = (ActionListener) -> {
@@ -116,7 +119,7 @@ public class UIFrameInvoker extends UITemplate implements IUIInvoker, Observer
 	private final ActionListener depositActionListener = (ActionListener) -> {
 	int selection = JTable1.getSelectionModel().getMinSelectionIndex();
 	if (selection >= 0) {
-		String accnr = (String) model.getValueAt(selection, uiConfig.getIdColumnIndex());
+		String accnr = (String) model.getValueAt(selection, uiStrategy.getIdColumnIndex());
 		openDialog(new Deposit(uiFrame, accnr));
 		this.depositCommand.execute(this);
 	} else {
@@ -127,7 +130,7 @@ public class UIFrameInvoker extends UITemplate implements IUIInvoker, Observer
 	private final ActionListener withdrawActionListener = (ActionListener) -> {
 		int selection = JTable1.getSelectionModel().getMinSelectionIndex();
 		if (selection >= 0) {
-			String accnr = (String) model.getValueAt(selection, uiConfig.getIdColumnIndex());
+			String accnr = (String) model.getValueAt(selection, uiStrategy.getIdColumnIndex());
 			openDialog(new Withdraw(uiFrame, accnr));
 			this.withdrawCommand.execute(this);
 		} else {
@@ -138,7 +141,7 @@ public class UIFrameInvoker extends UITemplate implements IUIInvoker, Observer
 	private final ActionListener generateBillActionListener = (ActionListener) -> {
 		int selection = JTable1.getSelectionModel().getMinSelectionIndex();
 		if (selection >= 0) {
-			String accnr = (String) model.getValueAt(selection, uiConfig.getIdColumnIndex());
+			String accnr = (String) model.getValueAt(selection, uiStrategy.getIdColumnIndex());
 			GenerateReport gr = new GenerateReport();
 			setReport(gr);
 			setAccountNumber(accnr);
@@ -304,7 +307,7 @@ public class UIFrameInvoker extends UITemplate implements IUIInvoker, Observer
 	}
 
 	private void tableRow(Account act){
-		model.addRow(this.uiConfig.buildRow(act));
+		model.addRow(this.uiStrategy.buildRow(act));
 		JTable1.getSelectionModel().setAnchorSelectionIndex(-1);
 		newAccount = false;
 	}

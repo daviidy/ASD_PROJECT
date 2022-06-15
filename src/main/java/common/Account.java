@@ -2,11 +2,11 @@ package common;
 
 import banking.visitor.InterestVisitor;
 import banking.visitor.Visitor;
+import common.domain.AccountEntry;
+import common.domain.Customer;
 import framework.strategy.InterestStrategy;
 import lombok.Getter;
 import lombok.Setter;
-import common.domain.AccountEntry;
-import common.domain.Customer;
 
 import java.util.ArrayList;
 import java.util.Collection;

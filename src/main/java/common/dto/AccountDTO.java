@@ -1,10 +1,9 @@
 package common.dto;
 
+import common.domain.Customer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import common.domain.Customer;
-import common.utils.AccountBuilder;
 
 import java.io.Serializable;
 @Data
@@ -14,8 +13,6 @@ public class AccountDTO implements Serializable {
     private String accountNumber;
     private String accountType;
     private Customer customer;
-    public static AccountBuilder builder(){
-        return new AccountBuilder();
-    }
+
 
 }

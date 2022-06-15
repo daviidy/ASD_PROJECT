@@ -1,7 +1,7 @@
 package banking.commands;
 
-import creditcard.utils.AccountDTOCreator;
 import banking.service.BankAccountServiceImpl;
+import common.dto.AccountDTOCreator;
 import framework.command.Command;
 import framework.ui.IUIInvoker;
 

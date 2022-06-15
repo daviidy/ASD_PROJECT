@@ -1,6 +1,6 @@
 package creditcard.commands;
 
-import creditcard.utils.AccountDTOCreator;
+import common.dto.AccountDTOCreator;
 import common.dto.AccountDTO;
 import framework.command.Command;
 import creditcard.service.CreditCardAccountServiceImpl;

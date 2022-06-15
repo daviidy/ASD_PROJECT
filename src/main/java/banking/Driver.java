@@ -1,8 +1,8 @@
 package banking;
 
 import banking.commands.*;
-import framework.ui.pages.UIFrameInvoker;
 import framework.ui.IUIInvoker;
+import framework.ui.pages.UIFrameInvoker;
 
 import javax.swing.*;
 
