@@ -4,10 +4,7 @@ import banking.constant.BankingAccountType;
 import banking.dao.BankingAccountDAOImpl;
 import banking.domain.CheckingAccount;
 import banking.domain.SavingsAccount;
-import banking.strategy.CompanyCheckingAccInterestStrategy;
-import banking.strategy.CompanySavingAccInterestStrategy;
-import banking.strategy.PersonalCheckingAccInterestStrategy;
-import banking.strategy.PersonalSavingsAccInterestStrategy;
+import banking.strategy.*;
 import common.Account;
 import common.AccountService;
 import common.domain.Customer;
@@ -58,7 +55,7 @@ public class BankAccountServiceImpl extends AccountService {
 
     public static void createReport(String accountNumber, GenerateReport generateReport) {
         Account account = instance.getAccount(accountNumber);
-        instance.generateReport(account, generateReport, true);
+        instance.generateReport(account, generateReport, new BankReportStrategy());
     }
 
 }

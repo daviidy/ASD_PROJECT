@@ -9,6 +9,7 @@ import creditcard.domain.CreditCardAccount;
 import framework.constant.AccountOperationConstant;
 import framework.observer.Subject;
 import framework.observer.Observer;
+import framework.strategy.ReportStrategy;
 import framework.ui.pages.GenerateReport;
 import framework.ui.pages.UIFrameInvoker;
 
@@ -138,59 +139,11 @@ public abstract class AccountService implements Subject {
 
 
 
-	public void generateReport(Account account, GenerateReport generateReport, boolean isBankingSystem) {
+	public void generateReport(Account account, GenerateReport generateReport, ReportStrategy reportStrategy) {
 		Log.getLogger().write("REPORT GENERATING HAS STARTED !!!");
 		Log.getLogger().write(account.toString());
-		StringBuilder sb = new StringBuilder();
-		sb.append("Account: " + account.getCustomer().getName());
-
-		if(isBankingSystem) {
-			HashMap<LocalDate, List<AccountEntry>> dailyAccountEntities = new HashMap();
-
-			for (AccountEntry accountEntry : account.getAccountEntries()) {
-				List<AccountEntry> entries = new ArrayList<>();
-				LocalDate reportDate;
-				reportDate = accountEntry.getDate();
-
-				if (dailyAccountEntities.containsKey(reportDate)) {
-					entries = dailyAccountEntities.get(reportDate);
-				}
-				entries.add(accountEntry);
-				dailyAccountEntities.put(reportDate, entries);
-			}
-
-			sb.append(generateReportRows(dailyAccountEntities));
-		} else {
-			CreditCardAccount creditCardAccount = (CreditCardAccount)account;
-			sb.append("Previous balance: " + creditCardAccount.getPreviousBalance() + "\n");
-			sb.append("New balance: " + creditCardAccount.getNewBalance() + "\n");
-			sb.append("Total charges: " + creditCardAccount.getTotalCharges() + "\n");
-			sb.append("Total credits: " + creditCardAccount.getTotalCredit() + "\n");
-			sb.append("Total due: " + creditCardAccount.getTotalDue() + "\n");
-		}
-
-		generateReport.setReport(sb.toString());
-		Log.getLogger().write(sb.toString());
+		reportStrategy.generateReport(account,generateReport);
 		Log.getLogger().write("REPORT GENERATION COMPLETED!");
-	}
-
-	public String generateReportRows(HashMap<LocalDate, List<AccountEntry>> reportData) {
-		StringBuilder sb = new StringBuilder();
-		for(Map.Entry<LocalDate, List<AccountEntry>> entry : reportData.entrySet()) {
-			LocalDate date = entry.getKey();
-			List<AccountEntry> accountEntries = entry.getValue();
-
-			sb.append(" Date: " + date + "\n");
-			sb.append(" ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿\n");
-			sb.append("|                                                     |\n");
-
-			for(AccountEntry accountEntry : accountEntries) {
-				sb.append("         " + accountEntry.report() + "\n");
-			}
-			sb.append("|＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿|\n");
-		}
-
-		return sb.toString();
 	}
 
 	@Override

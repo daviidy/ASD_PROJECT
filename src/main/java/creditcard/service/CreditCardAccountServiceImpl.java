@@ -1,6 +1,7 @@
 package creditcard.service;
 
 import creditcard.strategy.BronzeCreditCardStrategy;
+import creditcard.strategy.CardReportStrategy;
 import framework.observer.EmailSender;
 import common.dto.AccountDTO;
 import common.Account;
@@ -47,6 +48,6 @@ public class CreditCardAccountServiceImpl extends AccountService {
 
     public static void createReport(String accountNumber, GenerateReport generateReport) {
         Account account =instance.getAccount(accountNumber);
-        instance.generateReport(account, generateReport, false);
+        instance.generateReport(account, generateReport, new CardReportStrategy());
     }
 }
